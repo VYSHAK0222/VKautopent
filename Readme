@@ -1,0 +1,34 @@
+python3 autopent.py(command)
+
+
+
+Developed a modular Python-based toolkit automating penetration testing workflows, integrating Nmap for reconnaissance, w3af for web application scanning, and Metasploit for exploitation.
+
+Implemented service discovery, vulnerability scanning, and exploitation modules, streamlining the pen-testing process.
+
+Generated comprehensive reports in JSON format, detailing discovered services, vulnerabilities, and exploitation results.
+
+Enhanced tool scalability by designing a plugin architecture, allowing easy integration of additional scanning and exploitation modules.
+
+Utilized asynchronous programming to optimize scan performance, reducing overall testing time.
+
+
+
+AutoPent Toolkit – Automated Penetration Testing Framework
+
+Description:
+Developed a Python-based toolkit that automates the penetration testing process by integrating Nmap for reconnaissance, w3af for web application scanning, and Metasploit for exploitation. The toolkit streamlines the testing workflow, enhances efficiency, and provides detailed reports for security assessments.
+
+Key Features:
+
+Automated Reconnaissance: Utilized Nmap to perform comprehensive network scans, identifying open ports and services.
+
+Web Application Scanning: Integrated w3af to detect common web vulnerabilities, including SQL injection and cross-site scripting.
+
+Exploitation Module: Incorporated Metasploit to automate the exploitation of identified vulnerabilities.
+
+Reporting: Generated detailed JSON reports summarizing findings and exploitation outcomes.
+
+Plugin Architecture: Designed a modular system allowing easy addition of new scanning and exploitation modules.
+
+Technologies Used: Python, Nmap, Metasploit, w3af, JSON, Asynchronous Programming
